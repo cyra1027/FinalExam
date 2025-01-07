@@ -2,14 +2,18 @@ import { getAuth, signInWithPhoneNumber, RecaptchaVerifier } from "firebase/auth
 
 const auth = getAuth();
 
-function sendOTP(phoneNumber) {
-  window.recaptchaVerifier = new RecaptchaVerifier(
-    "recaptcha-container",
-    {
-      size: "invisible",
-    },
-    auth
-  );
+document.getElementById("send-otp-btn").addEventListener("click", () => {
+  const phoneNumber = document.getElementById("phone").value;
+
+  if (!window.recaptchaVerifier) {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+      },
+      auth
+    );
+  }
 
   const appVerifier = window.recaptchaVerifier;
 
@@ -22,4 +26,4 @@ function sendOTP(phoneNumber) {
       console.error(error);
       alert("Error sending OTP");
     });
-}
+});
